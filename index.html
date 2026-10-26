@@ -244,7 +244,7 @@
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2 id="contact-title">تواصلي معانا</h2>
+        <h2 id="contact-title">يسعدنا نسمع منك</h2>
       </div>
       <form id="contact-form" class="reveal" novalidate>
         <div class="field">
@@ -266,7 +266,7 @@
           <label for="cf-website">اتركي الخانة دي فاضية</label>
           <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
         </div>
-        <button class="btn btn-primary" type="submit">إرسال</button>
+        <button class="btn btn-primary" type="submit">ابعتي رسالتك</button>
         <p class="form-status" id="cf-status" role="alert"></p>
       </form>
       <div class="form-done" id="contact-done" role="status" hidden>
@@ -396,9 +396,9 @@
   const form = document.getElementById("contact-form");
   const statusEl = document.getElementById("cf-status");
   const fields = {
-    name: { el: form.elements.name, msg: "اكتبي الاسم." },
-    phone: { el: form.elements.phone, msg: "اكتبي رقم موبايل صحيح." },
-    message: { el: form.elements.message, msg: "اكتبي الرسالة." },
+    name: { el: form.elements.name, msg: "من فضلك اكتبي اسمك." },
+    phone: { el: form.elements.phone, msg: "من فضلك اكتبي رقم موبايل صحيح." },
+    message: { el: form.elements.message, msg: "من فضلك اكتبي رسالتك." },
   };
   const cleanPhone = v => v.replace(/[\s\-()]/g, "").replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
   const valid = {
@@ -425,7 +425,8 @@
     if (form.elements.website.value) { done(); return; } // spam bot filled the hidden field
 
     const btn = form.querySelector("button[type=submit]");
-    btn.disabled = true; btn.textContent = "جاري الإرسال…";
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = "لحظة واحدة…";
     try {
       if (!SUPABASE.url || !SUPABASE.publishableKey) throw new Error("Supabase not configured");
       const res = await fetch(`${SUPABASE.url.replace(/\/$/, "")}/rest/v1/messages`, {
@@ -445,8 +446,8 @@
       done();
     } catch (err) {
       console.error("Contact form:", err);
-      statusEl.textContent = "حصلت مشكلة في الإرسال. جربي تاني، أو ابعتيلنا على إنستجرام.";
-      btn.disabled = false; btn.textContent = "إرسال";
+      statusEl.textContent = "للأسف الرسالة ما وصلتش. من فضلك جربي تاني، أو راسلينا على إنستجرام.";
+      btn.disabled = false; btn.textContent = label;
     }
   });
 
