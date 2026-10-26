@@ -105,7 +105,8 @@
   dl.specs dd { margin: 0; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chips span { font-size: 13px; padding: 1px 10px; border: 1px solid rgba(111, 81, 68, .3); border-radius: 999px; }
-  .card .btn { margin-top: auto; width: 100%; }
+  .card .order { margin-top: auto; display: grid; gap: 8px; }
+  .card .btn { width: 100%; }
   .note { text-align: center; font-size: 14px; margin: 26px auto 0; max-width: 520px; }
 
   /* Info */
@@ -169,6 +170,7 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3.3 3 6.4 6.4 6.4l1.2-1.6-2-1-1 .9a5 5 0 0 1-2.9-2.9l.9-1-1-2z"/></symbol>
   <symbol id="i-tt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.5 2.6 2.4 4.4 5 4.6"/></symbol>
   <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
   <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
@@ -202,6 +204,9 @@
         <a class="btn btn-ghost js-ig" href="#" target="_blank" rel="noopener">
           <svg aria-hidden="true"><use href="#i-ig"/></svg>اطلبي عبر إنستجرام
         </a>
+        <a class="btn btn-ghost js-wa" href="#" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-wa"/></svg>اطلبي عبر واتساب
+        </a>
       </div>
     </div>
   </section>
@@ -227,7 +232,7 @@
           <svg aria-hidden="true"><use href="#i-bag"/></svg>
           <div>
             <h3>البيع أونلاين</h3>
-            <p>الطلب عبر إنستجرام <a class="js-ig handle-link" href="#" target="_blank" rel="noopener"><bdi>@wadad_boutique</bdi></a></p>
+            <p>الطلب عبر إنستجرام <a class="js-ig handle-link" href="#" target="_blank" rel="noopener"><bdi>@wadad_boutique</bdi></a> أو واتساب <a class="js-wa" href="#" target="_blank" rel="noopener"><bdi class="js-wa-number"></bdi></a></p>
           </div>
         </div>
         <div class="info-item reveal">
@@ -285,6 +290,9 @@
       <a class="js-ig" href="#" target="_blank" rel="noopener">
         <svg aria-hidden="true"><use href="#i-ig"/></svg>إنستجرام <span class="handle">@wadad_boutique</span>
       </a>
+      <a class="js-wa" href="#" target="_blank" rel="noopener">
+        <svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب <span class="handle js-wa-number"></span>
+      </a>
       <a class="js-tt" href="#" target="_blank" rel="noopener">
         <svg aria-hidden="true"><use href="#i-tt"/></svg>تيك توك <span class="handle">@wadad_boutique</span>
       </a>
@@ -298,6 +306,8 @@
   const SITE = {
     instagram: "https://www.instagram.com/wadad_boutique/",
     tiktok: "https://www.tiktok.com/@wadad_boutique",
+    whatsapp: "+20 15 03252825", // اكتبي الرقم بالكود الدولي
+
     currency: "ج.م",
   };
 
@@ -382,14 +392,21 @@
           <span class="tag">خصم ${off}%</span>` : ""}
         </p>
         ${specs ? `<dl class="specs">${specs}</dl>` : ""}
-        <a class="btn btn-ghost js-ig" href="#" target="_blank" rel="noopener" aria-label="اطلبي ${esc(p.name)} عبر إنستجرام">
-          <svg aria-hidden="true"><use href="#i-ig"/></svg>اطلبي عبر إنستجرام
-        </a>
+        <div class="order">
+          <a class="btn btn-ghost js-ig" href="#" target="_blank" rel="noopener" aria-label="اطلبي ${esc(p.name)} عبر إنستجرام">
+            <svg aria-hidden="true"><use href="#i-ig"/></svg>اطلبي عبر إنستجرام
+          </a>
+          <a class="btn btn-ghost js-wa" href="#" target="_blank" rel="noopener" aria-label="اطلبي ${esc(p.name)} عبر واتساب">
+            <svg aria-hidden="true"><use href="#i-wa"/></svg>اطلبي عبر واتساب
+          </a>
+        </div>
       </article>`;
   }).join("");
 
   document.querySelectorAll(".js-ig").forEach(a => a.href = SITE.instagram);
   document.querySelectorAll(".js-tt").forEach(a => a.href = SITE.tiktok);
+  document.querySelectorAll(".js-wa").forEach(a => a.href = "https://wa.me/" + SITE.whatsapp.replace(/\D/g, ""));
+  document.querySelectorAll(".js-wa-number").forEach(el => el.textContent = SITE.whatsapp);
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // ===== فورم التواصل =====
