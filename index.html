@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF9F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#170B09" media="(prefers-color-scheme: dark)">
 <title>وَدَد | WADAD BOUTIQUE</title>
 <meta name="description" content="وَدَد بوتيك — راحة، ثقة، وستر. ملابس محتشمة ونقاب وعبايات، والتوصيل لكل محافظات مصر.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,8 +52,11 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: var(--fs-body); line-height: 1.85; -webkit-font-smoothing: antialiased; }
+html { scroll-padding-top: 80px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: var(--fs-body); line-height: 1.85; -webkit-font-smoothing: antialiased; touch-action: manipulation; -webkit-tap-highlight-color: rgba(183, 154, 98, .25); }
+.skip { position: absolute; top: 8px; inset-inline-start: 8px; z-index: 20; padding: 8px 16px; border-radius: 999px; background: var(--wine); color: var(--on-wine); font-family: var(--f-head); text-decoration: none; transform: translateY(-200%); }
+.skip:focus { transform: none; }
 [hidden] { display: none !important; }
 .site { overflow-x: clip; }
 .wrap { max-width: 1120px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -116,7 +121,6 @@ a { color: inherit; }
 }
 
 /* Sections */
-section { scroll-margin-top: 80px; }
 .band { background: var(--surface); }
 .sec { padding-block: clamp(56px, 9vw, 112px); }
 .sec-head { display: grid; gap: 10px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 60ch; }
@@ -162,7 +166,7 @@ section { scroll-margin-top: 80px; }
   border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px;
 }
 .field textarea { min-height: 140px; resize: vertical; }
-.field input:focus, .field textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
 .field input[type="tel"] { direction: ltr; text-align: right; }
 .field [aria-invalid="true"] { border-color: var(--wine); }
 .err { color: var(--wine); font-size: .88rem; }
@@ -176,7 +180,7 @@ section { scroll-margin-top: 80px; }
 
 /* Footer */
 .foot { background: var(--wine); color: var(--on-wine); }
-.foot-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; padding-block: 48px; }
+.foot-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; padding-block: 48px calc(48px + env(safe-area-inset-bottom, 0px)); }
 .foot .mark { color: var(--on-wine); }
 .foot .mark-en { color: var(--on-wine); opacity: .75; display: inline; }
 .foot-tag { margin-top: 8px; opacity: .85; }
@@ -196,9 +200,10 @@ section { scroll-margin-top: 80px; }
 </svg>
 
 <div class="site">
+  <a class="skip" href="#top">انتقلي للمحتوى</a>
   <header class="top">
     <div class="wrap top-in">
-      <a class="mark" href="#top" aria-label="وَدَد، أعلى الصفحة">
+      <a class="mark" href="#top" aria-label="وَدَد، أعلى الصفحة" translate="no">
         <span class="mark-ar">وَدَد</span><span class="mark-en">WADAD BOUTIQUE</span>
       </a>
       <nav class="nav" aria-label="القائمة الرئيسية">
@@ -230,7 +235,7 @@ section { scroll-margin-top: 80px; }
             </a>
           </div>
         </div>
-        <div class="hero-art" aria-hidden="true">
+        <div class="hero-art" aria-hidden="true" translate="no">
           <div class="arch"><div class="arch-in"><span class="big-ar">وَدَد</span><span class="big-en">WADAD BOUTIQUE</span></div></div>
         </div>
       </div>
@@ -272,17 +277,17 @@ section { scroll-margin-top: 80px; }
             <div class="field">
               <label for="cf-name">الاسم</label>
               <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="cf-name-err">
-              <span class="err" id="cf-name-err"></span>
+              <span class="err" id="cf-name-err" aria-live="polite"></span>
             </div>
             <div class="field">
               <label for="cf-phone">الموبايل</label>
               <input id="cf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" required aria-describedby="cf-phone-err">
-              <span class="err" id="cf-phone-err"></span>
+              <span class="err" id="cf-phone-err" aria-live="polite"></span>
             </div>
             <div class="field">
               <label for="cf-message">الرسالة</label>
               <textarea id="cf-message" name="message" maxlength="2000" required aria-describedby="cf-message-err"></textarea>
-              <span class="err" id="cf-message-err"></span>
+              <span class="err" id="cf-message-err" aria-live="polite"></span>
             </div>
             <div class="hp" aria-hidden="true">
               <label for="cf-website">اتركي الخانة دي فاضية</label>
@@ -302,7 +307,7 @@ section { scroll-margin-top: 80px; }
   <footer class="foot">
     <div class="wrap foot-in">
       <div>
-        <a class="mark" href="#top"><span class="mark-ar">وَدَد</span><span class="mark-en">WADAD BOUTIQUE</span></a>
+        <a class="mark" href="#top" translate="no"><span class="mark-ar">وَدَد</span><span class="mark-en">WADAD BOUTIQUE</span></a>
         <p class="foot-tag">راحة، ثقة، وستر</p>
       </div>
       <nav class="foot-links" aria-label="حسابات وَدَد">
@@ -405,12 +410,12 @@ section { scroll-margin-top: 80px; }
     const off = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
     return `
       <article class="product">
-        <div class="arch" role="img" aria-label="${esc(p.name)}"><div class="arch-in"><span class="arch-name">${esc(p.name)}</span><span class="arch-mark">وَدَد</span></div></div>
+        <div class="arch" aria-hidden="true" translate="no"><div class="arch-in"><span class="arch-name">${esc(p.name)}</span><span class="arch-mark">وَدَد</span></div></div>
         <div class="p-body">
           <div class="p-head">
             <p class="eyebrow">${esc(p.kind)}</p>
-            <h3 class="p-name">${esc(p.name)}</h3>
-            ${p.phrase ? `<p class="p-phrase">${esc(p.phrase)}</p>` : ""}
+            <h3 class="p-name" translate="no">${esc(p.name)}</h3>
+            ${p.phrase ? `<p class="p-phrase" translate="no">${esc(p.phrase)}</p>` : ""}
           </div>
           <p class="p-desc">${esc(p.desc)}</p>
           <p class="price">
