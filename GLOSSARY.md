@@ -19,7 +19,7 @@ An item the shop sells, such as Luna Set or Niqab Collection.
 _Avoid_: Item, piece, listing
 
 **Option**:
-A choice within a Product that a Customer must pick, such as a color or a size. Each Option can be Available or not on its own.
+One specific choice within a Product that a Customer must pick, such as blue, or size 25. Each Option can be Available or not on its own.
 _Avoid_: Variant, variation, SKU
 
 **Available**:
@@ -33,7 +33,7 @@ The Products and Options a Customer has picked but not yet ordered. A Cart becom
 _Avoid_: Basket, bag
 
 **Order**:
-A Customer's request to buy one or more Products, placed through the site. Payment happens outside the site, by the Payment Method chosen in the Order.
+A Customer's request to buy one or more Products, placed through the site. Payment happens outside the site, by the Payment Method chosen in the Order. A request made over WhatsApp or Instagram is not an Order.
 _Avoid_: Purchase, sale, transaction, checkout
 
 **Order Number**:
@@ -45,7 +45,7 @@ One Product in an Order, with its chosen Options, quantity, and the unit price a
 _Avoid_: Item, cart item, row
 
 **Order Total**:
-The sum of an Order's lines. It never includes shipping, which the Admin confirms with the Customer.
+The sum of an Order's Order Lines. It never includes shipping, which the Admin confirms with the Customer.
 _Avoid_: Grand total, amount due
 
 **Order Status**:
@@ -59,5 +59,5 @@ _Avoid_: Payment, gateway
 ## Contact
 
 **Message**:
-A note a visitor sends through the contact form, with name, phone and text. A Message is not an Order. An Admin can mark it as handled.
+A note a person sends through the contact form, with name, phone and text. A Message is not an Order. An Admin can mark it as handled.
 _Avoid_: Contact, inquiry, ticket, lead
