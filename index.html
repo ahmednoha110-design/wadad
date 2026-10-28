@@ -190,6 +190,13 @@ a { color: inherit; }
 .foot-links .k { font-size: .8rem; opacity: .75; font-family: var(--f-head); }
 .foot-links .h { direction: ltr; unicode-bidi: isolate; }
 .foot-copy { flex-basis: 100%; font-size: .82rem; opacity: .7; border-top: 1px solid color-mix(in srgb, var(--on-wine) 25%, transparent); padding-top: 18px; }
+
+/* Toast */
+.toast { position: fixed; inset-inline: 16px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 30; max-width: 420px; margin-inline: auto; padding: 12px 18px; border-radius: 14px; background: var(--ink); color: var(--bg); font-family: var(--f-head); text-align: center; line-height: 1.6; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+@media (prefers-reduced-motion: no-preference) {
+  .toast { animation: toast-in .25s ease-out; }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
 </style>
 </head>
 <body>
@@ -212,7 +219,7 @@ a { color: inherit; }
           <a href="#ordering">الطلب والتوصيل</a>
           <a href="#contact">تواصلي معانا</a>
         </div>
-        <a class="btn btn-primary btn-small js-ig" href="#" target="_blank" rel="noopener">اطلبي الآن</a>
+        <a class="btn btn-primary btn-small js-ig-order" href="#" target="_blank" rel="noopener">اطلبي الآن</a>
       </nav>
     </div>
   </header>
@@ -227,7 +234,7 @@ a { color: inherit; }
           <p class="hero-sub">ودّ في كل قطعة</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#collection">تصفحي المجموعة</a>
-            <a class="btn btn-ghost js-ig" href="#" target="_blank" rel="noopener">
+            <a class="btn btn-ghost js-ig-order" href="#" target="_blank" rel="noopener">
               <svg class="icon" aria-hidden="true"><use href="#i-ig"/></svg>اطلبي عبر إنستجرام
             </a>
             <a class="btn btn-ghost js-wa" href="#" target="_blank" rel="noopener">
@@ -262,7 +269,7 @@ a { color: inherit; }
           </div>
           <ul class="ship-list">
             <li><span class="k">البيع</span><span class="v">أونلاين</span></li>
-            <li><span class="k">الطلب عبر إنستجرام</span><span class="v"><a class="js-ig" href="#" target="_blank" rel="noopener"><bdi>@wadad_boutique</bdi></a></span></li>
+            <li><span class="k">الطلب عبر إنستجرام</span><span class="v"><a class="js-ig-order" href="#" target="_blank" rel="noopener"><bdi>@wadad_boutique</bdi></a></span></li>
             <li><span class="k">الطلب عبر واتساب</span><span class="v"><a class="js-wa" href="#" target="_blank" rel="noopener"><bdi class="js-wa-number"></bdi></a></span></li>
             <li><span class="k">التوصيل</span><span class="v">التوصيل لكل محافظات مصر</span></li>
             <li><span class="k">الدفع</span><span class="v">كاش عند الاستلام، أو <span translate="no">InstaPay</span>، أو محفظة موبايل</span></li>
@@ -329,6 +336,12 @@ a { color: inherit; }
     tiktok: "https://www.tiktok.com/@wadad_boutique",
     whatsapp: "+20 15 03252825", // اكتبي الرقم بالكود الدولي
     currency: "ج.م",
+  };
+
+  // الرسالة اللي بتتكتب تلقائي لما العميلة تدوس «اطلبي» على واتساب أو إنستجرام
+  const ORDER_MESSAGE = {
+    general: "السلام عليكم، عايزة أطلب من وَدَد. ممكن تساعدوني؟",
+    product: (name, price) => `السلام عليكم، عايزة أطلب ${name} بسعر ${price}. ممكن أعرف الألوان والمقاسات المتاحة؟`,
   };
 
   // فورم التواصل — Supabase
@@ -426,10 +439,10 @@ a { color: inherit; }
           </p>
           ${rows.length ? `<dl class="specs">${rows.join("")}</dl>` : ""}
           <div class="p-cta">
-            <a class="btn btn-ghost btn-small js-ig" href="#" target="_blank" rel="noopener" aria-label="اطلبي ${esc(p.name)} عبر إنستجرام">
+            <a class="btn btn-ghost btn-small js-ig-order" href="#" target="_blank" rel="noopener" data-msg="${esc(ORDER_MESSAGE.product(p.name, money(p.price)))}" aria-label="اطلبي ${esc(p.name)} عبر إنستجرام">
               <svg class="icon" aria-hidden="true"><use href="#i-ig"/></svg>اطلبي عبر إنستجرام
             </a>
-            <a class="btn btn-ghost btn-small js-wa" href="#" target="_blank" rel="noopener" aria-label="اطلبي ${esc(p.name)} عبر واتساب">
+            <a class="btn btn-ghost btn-small js-wa" href="#" target="_blank" rel="noopener" data-msg="${esc(ORDER_MESSAGE.product(p.name, money(p.price)))}" aria-label="اطلبي ${esc(p.name)} عبر واتساب">
               <svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg>اطلبي عبر واتساب
             </a>
           </div>
@@ -437,9 +450,29 @@ a { color: inherit; }
       </article>`;
   }).join("");
 
+  const igHandle = SITE.instagram.replace(/\/+$/, "").split("/").pop();
   document.querySelectorAll(".js-ig").forEach(a => a.href = SITE.instagram);
   document.querySelectorAll(".js-tt").forEach(a => a.href = SITE.tiktok);
-  document.querySelectorAll(".js-wa").forEach(a => a.href = "https://wa.me/" + SITE.whatsapp.replace(/\D/g, ""));
+  // WhatsApp fills the message in the chat box itself.
+  document.querySelectorAll(".js-wa").forEach(a => a.href = "https://wa.me/" + SITE.whatsapp.replace(/\D/g, "")
+    + "?text=" + encodeURIComponent(a.dataset.msg || ORDER_MESSAGE.general));
+  // Instagram links can't prefill a DM, so the message is copied for the Customer to paste.
+  document.querySelectorAll(".js-ig-order").forEach(a => {
+    a.href = `https://ig.me/m/${igHandle}`;
+    a.addEventListener("click", () => copyOrderMessage(a.dataset.msg || ORDER_MESSAGE.general));
+  });
+
+  let toastTimer;
+  function showToast(text) {
+    let el = document.querySelector(".toast");
+    if (!el) { el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); document.body.append(el); }
+    el.textContent = text; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 5000);
+  }
+  async function copyOrderMessage(text) {
+    try { await navigator.clipboard.writeText(text); showToast("نسخنا لك رسالة الطلب، الصقيها في المحادثة على إنستجرام."); }
+    catch (err) { /* clipboard blocked: the DM still opens */ }
+  }
   document.querySelectorAll(".js-wa-number").forEach(el => el.textContent = SITE.whatsapp);
   document.getElementById("year").textContent = new Date().getFullYear();
 
