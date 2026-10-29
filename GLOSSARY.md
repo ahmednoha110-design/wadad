@@ -1,15 +1,15 @@
 # Wadad Boutique
 
-The online shop for WADAD BOUTIQUE (وَدَد), a modest-fashion brand selling across Egypt. Customers browse Products and place Orders; the Admin runs the shop.
+The online shop for WADAD BOUTIQUE (وَدَد), a modest-fashion brand selling across Egypt. Customers browse Products on the site and order over WhatsApp or Instagram; the Admin records each Order and runs the shop.
 
 ## People
 
 **Customer**:
-A person who places an Order on the site. A Customer has no account and orders as a guest.
+A person who orders from the shop over WhatsApp or Instagram. A Customer has no account on the site.
 _Avoid_: User, client, buyer, account
 
 **Admin**:
-A person who signs in to run the shop: manages Products, reviews Orders and Messages. Every Admin has the same full access.
+A person who signs in to run the shop: manages Products, records and tracks Orders, and reviews Messages. Every Admin has the same full access.
 _Avoid_: User, staff, owner, moderator
 
 ## Catalogue
@@ -29,24 +29,32 @@ _Avoid_: In stock, quantity, inventory
 ## Ordering
 
 **Cart**:
-The Products and Options a Customer has picked but not yet ordered. A Cart becomes an Order only when the Customer places it.
+The Products and Options a Customer has picked on the site. Sending a Cart opens a WhatsApp message to the shop; it does not create an Order.
 _Avoid_: Basket, bag
 
 **Order**:
-A Customer's request to buy one or more Products, placed through the site. Payment happens outside the site, by the Payment Method chosen in the Order. A request made over WhatsApp or Instagram is not an Order.
+A Customer's purchase of one or more Products, agreed over WhatsApp or Instagram and recorded by an Admin. Payment happens outside the site, by the Payment Method chosen in the Order.
 _Avoid_: Purchase, sale, transaction, checkout
 
+**Order Source**:
+Where the Customer made the Order: WhatsApp or Instagram.
+_Avoid_: Channel, platform
+
 **Order Number**:
-The short public reference for an Order, such as W-1024, that the Customer quotes on WhatsApp or Instagram.
+The short reference an Admin gives a Customer for an Order, such as W-1024.
 _Avoid_: Order ID, reference, code
 
 **Order Line**:
-One Product in an Order, with its chosen Options, quantity, and the unit price at the moment the Order was placed.
+One Product in an Order, with its chosen Options, quantity, and the unit price at the moment the Order was recorded.
 _Avoid_: Item, cart item, row
 
 **Order Total**:
-The sum of an Order's Order Lines. It never includes shipping, which the Admin confirms with the Customer.
+What the Customer pays for an Order: the sum of its Order Lines, minus any Discount, plus the shipping fee the Admin agreed with the Customer.
 _Avoid_: Grand total, amount due
+
+**Discount**:
+An amount the Admin takes off a whole Order, as agreed with the Customer.
+_Avoid_: Offer, coupon, promo
 
 **Order Status**:
 Where an Order stands: New, Confirmed, Shipped, Delivered, or Cancelled. Only an Admin changes it.
